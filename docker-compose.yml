@@ -1,0 +1,7 @@
+services:
+    valentine:
+        image: valentine:latest
+        restart: unless-stopped
+        container_name: valentine
+        volumes:
+            - ./private:/valentine/private
