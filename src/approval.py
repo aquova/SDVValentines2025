@@ -3,8 +3,7 @@ import requests
 
 from utils import award_roles
 
-_FORWARD_URL = "https://0x0.st"
-_EXPIRE_TIME = 24 * 7 # Images will expire in one week
+_FORWARD_URL = "https://catbox.moe/user/api.php"
 
 class ApproveButton(discord.ui.Button):
     def __init__(self, entry_user: discord.Member):
@@ -62,8 +61,7 @@ async def post_entry(message: discord.Message, channel: discord.TextChannel):
             else:
                 embed = discord.Embed(description=f"Image submission {i + 1}", color=message.author.color)
             embed.add_field(name="Submitter:", value=message.author.mention)
-            print(attachment.url)
-            new_url = requests.post(_FORWARD_URL, data={"url": attachment.url, "expires": _EXPIRE_TIME})
+            new_url = requests.post(_FORWARD_URL, data={"reqtype": "urlupload", "url": attachment.url})
             if new_url.ok:
                 embed.set_image(url=new_url.text)
                 embed.add_field(name="URL:", value=new_url.text)
