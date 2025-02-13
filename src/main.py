@@ -10,6 +10,7 @@ from config import DISCORD_KEY, ADMIN_ROLES, REDIRECT_CHANNELS
 from utils import award_roles, check_roles
 
 _APPROVE_REACTION = "💘"
+_RESPONSE_REACTION = "✅"
 
 @client.event
 async def on_ready():
@@ -22,6 +23,7 @@ async def on_ready():
 async def on_reaction_add(reaction: discord.Reaction, user: discord.Member):
     if reaction.emoji == _APPROVE_REACTION and check_roles(user, ADMIN_ROLES):
         await award_roles(reaction.message.author, reaction.message.guild.roles)
+        await reaction.message.add_reaction(_RESPONSE_REACTION)
 
 @client.event
 async def on_message(message: discord.Message):
