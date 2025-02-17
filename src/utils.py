@@ -1,4 +1,6 @@
-from typing import Sequence
+import asyncio
+import functools
+from typing import Callable, Coroutine, Sequence
 
 import discord
 
@@ -16,3 +18,9 @@ def check_roles(user: discord.Member, valid_roles: list[int]) -> bool:
         if user.get_role(role):
             return True
     return False
+
+def to_thread(func: Callable) -> Coroutine:
+    @functools.wraps(func)
+    async def wrapper(*args, **kwargs):
+        return await asyncio.to_thread(func, *args, **kwargs)
+    return wrapper
